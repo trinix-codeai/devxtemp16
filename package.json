@@ -1,0 +1,13 @@
+{
+  "name": "localxplore",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.6.0",
+  "scripts": {
+    "dev": "corepack pnpm -r --parallel dev",
+    "build": "corepack pnpm -r build",
+    "lint": "corepack pnpm -r lint",
+    "test": "corepack pnpm -r test",
+    "format": "corepack pnpm -r format"
+  }
+}

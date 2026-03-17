@@ -1,0 +1,46 @@
+{
+  "name": "@localxplore/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "next lint",
+    "test": "echo 'tests pending setup'",
+    "format": "echo 'format at root if needed'"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
+    "@localxplore/shared": "workspace:*",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@reduxjs/toolkit": "^2.6.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.483.0",
+    "next": "15.2.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-hook-form": "^7.55.0",
+    "react-redux": "^9.2.0",
+    "tailwind-merge": "^3.0.2",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@storybook/addon-a11y": "^8.5.5",
+    "@storybook/addon-essentials": "^8.5.5",
+    "@storybook/nextjs": "^8.5.5",
+    "@storybook/react": "^8.5.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "storybook": "^8.5.5",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.2"
+  }
+}

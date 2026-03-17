@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TenantStatus {
+  active
+  suspended
+  trial
+  cancelled
+}
+
+enum SubscriptionStatus {
+  active
+  past_due
+  canceled
+  incomplete
+}
+
+model Plan {
+  id             String   @id @default(uuid())
+  name           String
+  code           String   @unique
+  description    String   @db.Text
+  priceMonthly   Float    @map("price_monthly")
+  priceAnnual    Float    @map("price_annual")
+  commissionRate Float    @map("commission_rate")
+  features       Json
+  limits         Json
+  isActive       Boolean  @default(true) @map("is_active")
+  sortOrder      Int      @map("sort_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenants       Tenant[]
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Tenant {
+  id               String       @id @default(uuid())
+  businessName     String       @map("business_name")
+  subdomain        String       @unique
+  customDomain     String?      @map("custom_domain")
+  planId           String       @map("plan_id")
+  status           TenantStatus @default(trial)
+  trialEndsAt      DateTime?    @map("trial_ends_at")
+  brandingSettings Json         @map("branding_settings")
+  contactEmail     String       @map("contact_email")
+  contactPhone     String       @map("contact_phone")
+  address          String       @db.Text
+  taxId            String?      @map("tax_id")
+  schemaName       String       @map("schema_name")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  plan          Plan           @relation(fields: [planId], references: [id])
+  users         TenantUser[]
+  subscriptions Subscription[]
+
+  @@map("tenants")
+}
+
+model TenantUser {
+  id           String   @id @default(uuid())
+  tenantId     String   @map("tenant_id")
+  email        String
+  passwordHash String   @map("password_hash")
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  role         String
+  permissions  Json
+  lastLogin    DateTime? @map("last_login")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, email])
+  @@map("tenant_users")
+}
+
+model Subscription {
+  id                    String             @id @default(uuid())
+  tenantId              String             @map("tenant_id")
+  planId                String             @map("plan_id")
+  status                SubscriptionStatus @default(active)
+  currentPeriodStart    DateTime           @map("current_period_start")
+  currentPeriodEnd      DateTime           @map("current_period_end")
+  cancelAtPeriodEnd     Boolean            @default(false) @map("cancel_at_period_end")
+  stripeSubscriptionId  String             @unique @map("stripe_subscription_id")
+  stripeCustomerId      String             @map("stripe_customer_id")
+  createdAt             DateTime           @default(now()) @map("created_at")
+  updatedAt             DateTime           @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  @@map("subscriptions")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  tenantId  String?  @map("tenant_id")
+  tokenHash String   @map("token_hash")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([tenantId])
+  @@map("refresh_tokens")
+}

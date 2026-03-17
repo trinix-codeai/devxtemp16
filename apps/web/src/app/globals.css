@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 250 249 247;
+  --surface: 255 255 255;
+  --ink: 26 43 60;
+  --muted: 74 90 106;
+  --border: 232 236 240;
+
+  --primary: 15 118 110;
+  --secondary: 230 160 32;
+  --success: 46 125 97;
+  --warning: 230 160 32;
+  --danger: 212 91 91;
+  --info: 69 120 191;
+
+  --radius-xs: 10px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-soft: 0 8px 30px rgba(17, 35, 56, 0.07);
+  --shadow-lift: 0 12px 24px rgba(17, 35, 56, 0.14);
+
+  --hero-gradient:
+    radial-gradient(circle at 10% -10%, rgba(15, 118, 110, 0.22), transparent 40%),
+    radial-gradient(circle at 100% -5%, rgba(230, 160, 32, 0.24), transparent 34%),
+    linear-gradient(140deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.72));
+}
+
+[data-theme="dark"] {
+  --bg: 26 31 44;
+  --surface: 42 47 60;
+  --ink: 240 242 245;
+  --muted: 160 168 181;
+  --border: 58 64 80;
+}
+
+* {
+  border-color: rgb(var(--border) / 1);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  color: rgb(var(--ink) / 1);
+  background: radial-gradient(circle at 0 0, rgba(15, 118, 110, 0.12), transparent 38%),
+    radial-gradient(circle at 100% 0, rgba(230, 160, 32, 0.18), transparent 34%), rgb(var(--bg) / 1);
+  font-family: "Manrope", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  line-height: 1.08;
+}
+
+h2,
+h3 {
+  line-height: 1.15;
+}
+
+p,
+li,
+label,
+input,
+textarea,
+button,
+span {
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply border border-white/70 bg-white/70 backdrop-blur-xl;
+  }
+
+  .premium-card {
+    @apply rounded-[var(--radius-md)] border bg-surface shadow-soft;
+    border-color: rgb(var(--border) / 0.7);
+  }
+
+  .page-shell {
+    @apply container py-8 sm:py-10 md:py-12;
+  }
+
+  .hero-shell {
+    @apply relative overflow-hidden rounded-[var(--radius-xl)] border p-6 sm:p-8 md:p-10 lg:p-14;
+    background-image: var(--hero-gradient);
+    border-color: rgb(var(--border) / 0.65);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .badge-soft {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold;
+    border-color: rgb(var(--primary) / 0.28);
+    color: rgb(var(--primary) / 1);
+    background: rgb(var(--primary) / 0.08);
+  }
+
+  .interactive-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .interactive-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .shimmer {
+    background: linear-gradient(100deg, rgba(148, 163, 184, 0.12), rgba(148, 163, 184, 0.3), rgba(148, 163, 184, 0.12));
+    background-size: 200% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
